@@ -1,0 +1,22 @@
+{% extends "__layout.twig" %}
+
+{% block content %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="information w-25 p-3 bg-dark rounded">
+        <h2>{{ nickname }}</h2>
+        <form class="d-inline" action="">
+            <label class="form-label">Смена никнейма</label>
+            <input class="form-control" type="text" name="new_nickname" autocomplete="off" value={{ nickname }}>
+            <button class="btn btn-primary m-2" type="submit" name="id" value="{{ id }}">Сменить</button>
+        </form>
+        <form class="d-inline" action="">
+            <button class="btn btn-danger m-2" type="submit">Удалить аккаунт</button>
+        </form>
+        <p>Общее время игры: {{ playtime }} ч.</p>
+        <p>Баланс: {{ balance }} р.</p>
+    </div>
+</div>
+    
+
+{% endblock %}

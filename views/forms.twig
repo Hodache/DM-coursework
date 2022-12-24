@@ -1,0 +1,7 @@
+{% macro link(text, url, classes = "", isactive) %}
+    <a class="{{ classes }} nav-link {{ isactive ? 'active' : '' }}" href="{{ url }}">{{ text }}</a>
+{% endmacro %}
+
+{% macro btn(text, url, classes = "", ismain, type = "primary") %}
+    <a class="{{ classes }} btn {{ ismain ? 'btn-' ~ type : 'btn-link' }}" href="{{ url }}">{{ text }}</a>
+{% endmacro %}

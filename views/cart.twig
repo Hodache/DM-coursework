@@ -1,0 +1,47 @@
+{% extends "__layout.twig" %}
+
+{% block content %}
+
+{% set sum = 0 %}
+{% for product in products %}
+{% set sum = sum + product.price %}
+{% endfor %}
+
+<div class="text-center">
+    <h1>Корзина</h1>
+    <div class="row gy-2">
+        <div class="col-5 offset-2">
+            <ul class="list-group">
+                {% for product in products %}
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                    <div class="fs-4">
+                        <form class="d-inline" action="/cart/remove" method="POST">
+                            <button type="submit" name="product_id" value="{{ product.id }}"
+                                class="btn btn-danger btn-lg"><i class="fa-solid fa-xmark"></i></button>
+                        </form>
+                        {{ product.name }}
+                    </div>
+
+                    <span class="badge fs-5 rounded-pill">{{ product.price }}&#8381</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-3 py-3 rounded bg-dark text-white font-size-3">
+            <p class="fs-3">Общая сумма: {{ sum }}&#8381</p>
+            {% if products %}
+            <form action="" method="POST">
+                <button type="submit" class="btn btn-success btn-lg p-2">Купить</button>
+            </form>
+            {% endif %}
+            {% if message %}
+            <div class="message p-3 mb-3 bg-warning rounded">
+                {{ message }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

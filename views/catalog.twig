@@ -1,0 +1,127 @@
+{% extends "__layout.twig" %}
+{% from "forms.twig" import btn as btn_link %}
+
+{% block content %}
+
+<div class="container-fluid"> 
+    <form class="row g-3 mb-3" action="">
+        <div class="col-3">
+            <label class="form-label" >Название</label>
+            <input class="form-control" type="text" name="name" autocomplete="off" value={{ name }} >
+        </div>
+        <div class="col-3">
+            <label class="form-label">Жанр</label>
+            <select class="form-select text-black" name="genre">
+                <option  value="">Все</option>
+                {% for genre in genres %}
+                <option value="{{ genre.genre }}" {{ active_genre == genre.genre ? "selected" }}>{{ genre.genre|title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-2">
+            <label class="form-label">Минимальная цена</label>
+            <input class="form-control d-inline" type="number" min="0" name="lowest_price" autocomplete="off" value={{ lowest_price }}>   
+        </div>
+        <div class="col-2">
+            <label class="form-label">Максимальная цена</label>
+            <input class="form-control d-inline" type="number" min="0" name="highest_price" autocomplete="off" value={{ highest_price }}>
+        </div>
+        
+        <div class="col mt-5">
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </form>
+
+    <div class="row g-2">
+        {% for product in products %}
+        
+        <div class="col-xl-4 col-md-6 col-sm-12 d-flex">
+            <a class="text-decoration-none" href="/product/{{ product.id }}">
+                <div class="card text-center flex-grow-1 bg-dark">
+                    {% if role == "admin" %}
+                    <div class="position-absolute" style="left: 4px; top: 4px;">
+                        <form action="/product/{{ product.id }}/update" method="GET">
+                            <button class="btn btn-warning">
+                                <i class="fas fa-pencil"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="position-absolute" style="right: 4px; top: 4px;">
+                        <form action="/product/{{ product.id }}/delete" method="POST">
+                            <button class="btn btn-danger">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <div class="h-75">
+                        <img class="card-img-top h-100" src="/media/placeholder.jpg" alt="">
+                    </div>
+                    <div class="card-body">
+                        <p class="fs-4 text-white mb-0">{{ product.name }}</p>
+                        <p class="text-white p-0 m-1">{{ product.price }} &#8381</p>
+                        <form action="/cart/add" method="POST">
+                            <button name="product_id" value="{{ product.id }}" class="btn btn-primary">Добавить в корзину</button>
+                        </form>
+                    </div>
+                </div>
+            </a>
+        </div>
+    
+        {% endfor %}
+    </div>
+
+    <div class="row d-flex mt-4">
+        <nav aria-label="products col">
+            <ul class="pagination pagination-lg">
+              <li class="page-item">
+                <form action="">
+
+                    {% if name or genre or lowest_price or highest_price %}
+                    <input type="hidden" name="name" value="{{ name }}">
+                    <input type="hidden" name="genre" value="{{ active_genre }}">
+                    <input type="hidden" name="lowest_price" value="{{ lowest_price }}">
+                    <input type="hidden" name="highest_price" value="{{ highest_price }}">
+                    {% endif %}
+
+                    <button class="page-link {{ current_page <= 1 ? 'disabled' : '' }}" 
+                            name="page" value="{{ current_page - 1 }}">Предыдущая</button>
+                </form>
+              </li>
+              <div class="pages-list d-flex" style="width: fit-content; overflow-x: scroll;">
+                {% for page in 1..pages_count %}
+                <li class="page-item">
+                  <form action="">
+  
+                      {% if name or genre or lowest_price or highest_price %}
+                      <input type="hidden" name="name" value="{{ name }}">
+                      <input type="hidden" name="genre" value="{{ active_genre }}">
+                      <input type="hidden" name="lowest_price" value="{{ lowest_price }}">
+                      <input type="hidden" name="highest_price" value="{{ highest_price }}">
+                      {% endif %}
+  
+                      <button type="submit" name="page" value="{{ page }}" class="page-link {{ current_page == page ? 'active' }}">{{ page }}</button>
+                  </form>
+                </li>
+                {% endfor %}
+              </div>
+              <li class="page-item">
+                <form action="">
+
+                    {% if name or genre or lowest_price or highest_price %}
+                    <input type="hidden" name="name" value="{{ name }}">
+                    <input type="hidden" name="genre" value="{{ active_genre }}">
+                    <input type="hidden" name="lowest_price" value="{{ lowest_price }}">
+                    <input type="hidden" name="highest_price" value="{{ highest_price }}">
+                    {% endif %}
+
+                    <button class="page-link {{ current_page >= pages_count ? 'disabled' : '' }}" 
+                            name="page" value="{{ current_page + 1 }}">Следующая</button>
+                </form>
+              </li>
+            </ul>
+          </nav>
+    </div>
+</div>
+    
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "__layout.twig" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+        {% if product_id %}
+        <div class="alert alert-secondary" role="alert">
+            <a href="/product/{{ product_id }}" class="alert-link">Продукт</a> обновлен
+        </div>
+        {% endif %}
+
+        {% if message %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <form class="row gy-2 mb-3" action="" method="POST">
+            <div class="col-3">
+                <label class="form-label" >Название</label>
+                <input class="form-control" type="text" name="name" autocomplete="off" value="{{ name }}">
+            </div>
+            <div class="col-3">
+                <label class="form-label">Разработчик</label>
+                <select class="form-select text-black" name="developer">
+                    {% for dev in developers %}
+                    <option value="{{ dev.developer }}" {{ active_developer == dev.developer ? 'selected' : '' }}>{{ dev.developer|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-2">
+                <label class="form-label">Цена</label>
+                <input class="form-control d-inline" type="number" min="0" name="price" autocomplete="off" value={{ price }}>   
+            </div>
+            <div class="col-12">
+                <label class="form-label">Описание</label>
+                <textarea class="form-control" name="description" tcols="30" rows="3">{{ description }}</textarea>
+            </div>
+            <div class="col mt-5">
+                <button class="btn btn-primary" type="submit">Обновить</button>
+            </div>
+        </form>
+{% endblock %}

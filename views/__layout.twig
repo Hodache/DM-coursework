@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" />
+    <title>{{ title }}</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#"><span style="font-weight: 800;">GameShop</span></a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Каталог</a>
+                    </li>
+                    {% if role == "admin" %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/add">Добавить продукт</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% if is_logged == true %}
+            <form action="/cart">
+                <button type="submit" class="btn btn-success p-2 mx-2">Корзина</button>
+            </form>
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn btn-danger p-2 mx-2">Выход</button>
+            </form>
+            {% else %}
+            <form action="/login" method="GET">
+                <button type="submit" class="btn btn-success p-2">Вход</button>
+            </form>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="content container pt-4 bg-gradient">
+        <div class="row">
+            <div class="col-12">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div> 
+    </div>
+
+    <style>
+        .character-link:hover {
+            background: lightblue;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .content {
+            min-height: 100vh;
+            background: rgb(8, 0, 82);
+            color: white;
+        }
+    </style>
+</body>
+
+</html>

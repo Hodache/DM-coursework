@@ -1,0 +1,25 @@
+{% extends "__layout.twig" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <div class="row gy-2">
+        <div class="col-lg-6 col-sm-12">
+            <img src="/media/placeholder.jpg">
+        </div>
+        <div class="col-lg-6 col-sm-12 fs-5">
+            {{ description }}
+        </div>
+        <div class="col-12">
+            {% for genre in genres %}
+                <span class="p-1 bg-dark bg-gradient rounded">{{ genre.genre }}</span>
+            {% endfor %}
+            <span class="p-1 bg-secondary bg-gradient rounded">{{ developer.developer }}</span>
+        </div>
+        <div class="col-12 text-end">
+            <form action="/cart/add" method="POST">
+                <button type="submit" name="product_id" value="{{ id }}" class="btn btn-success btn-lg p-3">Добавить в корзину</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
